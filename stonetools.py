@@ -1,7 +1,7 @@
 import math
 import sys
 
-valid_options = [1, 2]
+valid_options = (1, 2)
 
 
 def get_option():
