@@ -1,18 +1,41 @@
 import math
 import sys
 
-VALID_OPTIONS = (1, 2)
+
+def request_float_input(prompt):
+    while True:
+        try:
+            value = input(prompt)
+            if value.lower() == "q":
+                return None
+            return float(value)
+        except ValueError:
+            print("Invalid input. Please enter a valid number.")
+
+
+def request_int_input(prompt):
+    while True:
+        try:
+            value = input(prompt)
+            if value.lower() == "q":
+                return None
+            return int(value)
+        except ValueError:
+            print("Invalid input. Please enter a valid integer.")
 
 
 def get_option():
-    option = input("Enter 1 for piece length or 2 for arc length: ")
-    if option == "q":
-        sys.exit()
-    elif int(option) in VALID_OPTIONS:
-        return int(option)
-    else:
-        print("Not a valid option.")
-        return get_option()
+    valid_options = {1, 2}  # can be changed to omit options for testing
+
+    while True:
+        option = request_int_input("Enter 1 for piece length, 2 for arc length, or (q)uit: ")
+        if option is None:
+            sys.exit()
+
+        if option in valid_options:
+            return option
+        else:
+            print("Not a valid option.")
 
 
 def calculate_piece_length(overall_length, num_pieces, joint_spacing):
@@ -24,20 +47,31 @@ def calculate_arc_length(radius, chord_length):
 
 
 def request_piece_length_inputs():
-    overall_length = input("Enter the overall length in inches: ")
-    if overall_length == "q":
+    overall_length = request_float_input("Enter the overall length in inches, or (q)uit: ")
+    if overall_length is None:
         return None
-    number_of_pieces = int(input("Enter the number of pieces: "))
-    joint_spacing = float(input("Enter the joint spacing in decimal inches: "))
-    return float(overall_length), number_of_pieces, joint_spacing
+
+    number_of_pieces = request_int_input("Enter the number of pieces, or (q)uit: ")
+    if number_of_pieces is None:
+        return None
+
+    joint_spacing = request_float_input("Enter the joint spacing in decimal inches, or (q)uit: ")
+    if joint_spacing is None:
+        return None
+
+    return overall_length, number_of_pieces, joint_spacing
 
 
 def request_arc_length_inputs():
-    radius = input("Enter the radius in inches: ")
-    if radius == "q":
+    radius = request_float_input("Enter the radius in inches, or (q)uit: ")
+    if radius is None:
         return None
-    chord_length = float(input("Enter the chord length in inches: "))
-    return float(radius), chord_length
+
+    chord_length = request_float_input("Enter the chord length in inches, or (q)uit: ")
+    if chord_length is None:
+        return None
+
+    return radius, chord_length
 
 
 def main():
@@ -48,9 +82,7 @@ def main():
             inputs = request_piece_length_inputs()
             if inputs is not None:
                 overall_length, num_pieces, joint_spacing = inputs
-                result = calculate_piece_length(
-                    overall_length, num_pieces, joint_spacing
-                )
+                result = calculate_piece_length(overall_length, num_pieces, joint_spacing)
                 print(f'Each piece length is {result}".\n')
         elif option == 2:
             inputs = request_arc_length_inputs()
