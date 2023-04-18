@@ -1,8 +1,16 @@
+"""
+This module contains functions for calculating the length of each piece of a
+stone slab given the overall length, number of pieces, and joint spacing, as
+well as the arc length and chord length of a circular arc given the radius and
+either the arc length or chord length.
+"""
 import math
 import sys
 
 
-def request_float_input(prompt):
+# Input request and validation functions
+def request_float_input(prompt: str) -> float | None:
+    """Request a float input from the user."""
     while True:
         try:
             value = input(prompt)
@@ -13,7 +21,8 @@ def request_float_input(prompt):
             print("Invalid input. Please enter a valid number.")
 
 
-def request_int_input(prompt):
+def request_int_input(prompt: str) -> int | None:
+    """Request an integer input from the user."""
     while True:
         try:
             value = input(prompt)
@@ -24,36 +33,25 @@ def request_int_input(prompt):
             print("Invalid input. Please enter a valid integer.")
 
 
-def get_option():
-    valid_options = {1, 2, 3}  # can be changed to omit options for testing
-
-    while True:
-        option = request_int_input("Enter 1 for piece length, 2 for arc length, 3 for chord length or (q)uit: ")
-        if option is None:
-            sys.exit()
-
-        if option in valid_options:
-            return option
-        else:
-            print("Not a valid option.")
-
-
-def calculate_piece_length(overall_length, num_pieces, joint_spacing):
+# Calculation functions
+def calculate_piece_length(overall_length: float, num_pieces: int, joint_spacing: float) -> float:
     """Calculate the length of each piece given the overall length, number of pieces, and joint spacing."""
     return (overall_length - (num_pieces - 1) * joint_spacing) / num_pieces
 
 
-def calculate_arc_length(radius, chord_length):
+def calculate_arc_length(radius: float, chord_length: float) -> float:
     """Calculate the arc length given the radius and chord length."""
     return 2 * radius * math.asin(chord_length / (2 * radius))
 
 
-def calculate_chord_length(radius, arc_length):
+def calculate_chord_length(radius: float, arc_length: float) -> float:
     """Calculate the chord length given the radius and arc length."""
     return 2 * radius * math.sin(arc_length / (2 * radius))
 
 
-def request_piece_length_inputs():
+# Input request functions
+def request_piece_length_inputs() -> tuple[float, int, float] | None:
+    """Request the overall length, number of pieces, and joint spacing from the user."""
     overall_length = request_float_input("Enter the overall length in inches, or (q)uit: ")
     if overall_length is None:
         return None
@@ -69,7 +67,8 @@ def request_piece_length_inputs():
     return overall_length, number_of_pieces, joint_spacing
 
 
-def request_arc_length_inputs():
+def request_arc_length_inputs() -> tuple[float, float] | None:
+    """Request the radius and chord length from the user."""
     radius = request_float_input("Enter the radius in inches, or (q)uit: ")
     if radius is None:
         return None
@@ -81,7 +80,8 @@ def request_arc_length_inputs():
     return radius, chord_length
 
 
-def request_chord_length_inputs():
+def request_chord_length_inputs() -> tuple[float, float] | None:
+    """Request the radius and arc length from the user."""
     radius = request_float_input("Enter the radius in inches, or (q)uit: ")
     if radius is None:
         return None
@@ -93,9 +93,24 @@ def request_chord_length_inputs():
     return radius, arc_length
 
 
+def request_option() -> int:
+    """Request the user to select an option from the menu."""
+    valid_options = {1, 2, 3}  # can be changed to omit options for testing
+
+    while True:
+        option = request_int_input("Enter 1 for piece length, 2 for arc length, 3 for chord length or (q)uit: ")
+        if option is None:
+            sys.exit()
+
+        if option in valid_options:
+            return option
+        else:
+            print("Not a valid option.")
+
+
 def main():
     while True:
-        option = get_option()
+        option = request_option()
 
         if option == 1:
             inputs = request_piece_length_inputs()
