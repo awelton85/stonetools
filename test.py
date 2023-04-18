@@ -1,5 +1,5 @@
 import unittest
-from stonetools import calculate_piece_length, calculate_arc_length
+from stonetools import calculate_piece_length, calculate_arc_length, calculate_chord_length
 
 
 class TestScriptFunctions(unittest.TestCase):
@@ -34,6 +34,26 @@ class TestScriptFunctions(unittest.TestCase):
             calculate_arc_length(20, 30),
             33.922483159259244,
             msg="Failed for radius=20, chord_length=30",
+            places=8,
+        )
+
+    def test_calculate_chord_length(self):
+        self.assertAlmostEqual(
+            calculate_chord_length(200, 120),
+            118.208082664536,
+            msg="Failed for radius=200, arc_length=120",
+            places=8,
+        )
+        self.assertAlmostEqual(
+            calculate_chord_length(5, 8),
+            7.1735609089952,
+            msg="Failed for radius=5, arc_length=8",
+            places=8,
+        )
+        self.assertAlmostEqual(
+            calculate_chord_length(20, 30),
+            27.265550400933,
+            msg="Failed for radius=20, arc_length=30",
             places=8,
         )
 
