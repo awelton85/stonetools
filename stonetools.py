@@ -25,10 +25,10 @@ def request_int_input(prompt):
 
 
 def get_option():
-    valid_options = {1, 2}  # can be changed to omit options for testing
+    valid_options = {1, 2, 3}  # can be changed to omit options for testing
 
     while True:
-        option = request_int_input("Enter 1 for piece length, 2 for arc length, or (q)uit: ")
+        option = request_int_input("Enter 1 for piece length, 2 for arc length, 3 for chord length or (q)uit: ")
         if option is None:
             sys.exit()
 
@@ -39,11 +39,18 @@ def get_option():
 
 
 def calculate_piece_length(overall_length, num_pieces, joint_spacing):
+    """Calculate the length of each piece given the overall length, number of pieces, and joint spacing."""
     return (overall_length - (num_pieces - 1) * joint_spacing) / num_pieces
 
 
 def calculate_arc_length(radius, chord_length):
+    """Calculate the arc length given the radius and chord length."""
     return 2 * radius * math.asin(chord_length / (2 * radius))
+
+
+def calculate_chord_length(radius, arc_length):
+    """Calculate the chord length given the radius and arc length."""
+    return 2 * radius * math.sin(arc_length / (2 * radius))
 
 
 def request_piece_length_inputs():
@@ -74,6 +81,18 @@ def request_arc_length_inputs():
     return radius, chord_length
 
 
+def request_chord_length_inputs():
+    radius = request_float_input("Enter the radius in inches, or (q)uit: ")
+    if radius is None:
+        return None
+
+    arc_length = request_float_input("Enter the arc length in inches, or (q)uit: ")
+    if arc_length is None:
+        return None
+
+    return radius, arc_length
+
+
 def main():
     while True:
         option = get_option()
@@ -90,6 +109,12 @@ def main():
                 radius, chord_length = inputs
                 result = calculate_arc_length(radius, chord_length)
                 print(f'The arc length is {result}".\n')
+        elif option == 3:
+            inputs = request_chord_length_inputs()
+            if inputs is not None:
+                radius, arc_length = inputs
+                result = calculate_chord_length(radius, arc_length)
+                print(f'The chord length is {result}".\n')
 
 
 if __name__ == "__main__":
