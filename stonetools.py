@@ -3,6 +3,7 @@ This module contains functions for calculating the length of each piece of a
 stone slab given the overall length, number of pieces, and joint spacing, as
 well as the arc length and chord length of a circular arc given the radius and
 either the arc length or chord length.
+Updated for python 3.11 on 2023-05-11
 """
 import math
 import sys
